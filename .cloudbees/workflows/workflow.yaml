@@ -1,0 +1,42 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: Infrastructure automation
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build-infra:
+    # timeout-minutes: 10
+    steps:
+      - name: Say hello
+        uses: docker://golang:1.20.3-alpine3.17
+        shell: sh
+        run: |
+          echo "hello world5"
+
+      - name: checkout code
+        uses: cloudbees-io/checkout@v1
+
+      - uses: cloudbees-io/configure-aws-credentials@v1
+        id: aws-login
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ vars.aws_access_key_id }}
+          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          role-to-assume: cloudbees-infra-mgmt-role
+          role-external-id: cloudbees
+          role-duration-seconds: "3600"
+
+      - name: AWS CLI test
+        uses: docker://amazon/aws-cli:latest
+        shell: sh
+        run: |
+          echo "aws sts get-caller-identity"
+          aws sts get-caller-identity
+          echo "aws configure list"
+          aws configure list
+          echo "aws s3 ls"
+          aws s3 ls
