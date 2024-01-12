@@ -1,3 +1,6 @@
+// Inspired by https://rtfm.co.ua/en/terraform-building-eks-part-1-vpc-subnets-and-endpoints/
+// TODO: maybe add the entpoints from the article?
+
 terraform {
   required_providers {
     aws = {
@@ -19,8 +22,8 @@ provider "aws" {
 }
 
 module "subnet_addrs" {
-  source  = "hashicorp/subnets/cidr"
-  version = "1.0.0"
+  source          = "hashicorp/subnets/cidr"
+  version         = "1.0.0"
   base_cidr_block = var.vpc_cidr
   networks = [
     {
@@ -46,7 +49,7 @@ module "subnet_addrs" {
     {
       name     = "intra-2"
       new_bits = 8
-    },        
+    },
   ]
 }
 
@@ -63,6 +66,14 @@ module "vpc" {
 
   create_igw         = true # Expose public subnetworks to the Internet
   enable_nat_gateway = true # Hide private subnetworks behind NAT Gateway
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = "1"
+  }
 
   tags = {
     Terraform   = "true"
