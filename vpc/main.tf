@@ -81,44 +81,44 @@ module "vpc" {
   }
 }
 
-module "alb" {
-  source  = "terraform-aws-modules/alb/aws"
-  version = "~> 9.0"
+# module "alb" {
+#   source  = "terraform-aws-modules/alb/aws"
+#   version = "~> 9.0"
 
-  name               = "cloudbees-quickstart-alb"
-  load_balancer_type = "application"
-  security_groups    = [module.vpc.default_security_group_id]
-  subnets            = module.vpc.public_subnets
-  vpc_id             = module.vpc.vpc_id
+#   name               = "cloudbees-quickstart-alb"
+#   load_balancer_type = "application"
+#   security_groups    = [module.vpc.default_security_group_id]
+#   subnets            = module.vpc.public_subnets
+#   vpc_id             = module.vpc.vpc_id
 
 
-  # For example only
-  enable_deletion_protection = false
+#   # For example only
+#   enable_deletion_protection = false
 
-  # Security Group
-  security_group_ingress_rules = {
-    all_http = {
-      from_port   = -1
-      to_port     = -1
-      ip_protocol = -1
-      cidr_ipv4   = "0.0.0.0/0"
-    }
-  }
+#   # Security Group
+#   security_group_ingress_rules = {
+#     all_http = {
+#       from_port   = -1
+#       to_port     = -1
+#       ip_protocol = -1
+#       cidr_ipv4   = "0.0.0.0/0"
+#     }
+#   }
 
-  security_group_egress_rules = {
-    all_http = {
-      from_port   = -1
-      to_port     = -1
-      ip_protocol = -1
-      cidr_ipv4   = "0.0.0.0/0"
-    }
-  }
+#   security_group_egress_rules = {
+#     all_http = {
+#       from_port   = -1
+#       to_port     = -1
+#       ip_protocol = -1
+#       cidr_ipv4   = "0.0.0.0/0"
+#     }
+#   }
 
-  listeners = {}
+#   listeners = {}
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
-}
+#   tags = {
+#     Terraform   = "true"
+#     Environment = "dev"
+#   }
+# }
 

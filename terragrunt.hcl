@@ -14,8 +14,6 @@ remote_state {
   }
 }
 
-# skip = true
-
 inputs = {
   aws-user-name = "infra-guide-rails"
 }

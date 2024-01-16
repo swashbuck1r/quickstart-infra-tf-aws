@@ -24,11 +24,11 @@ Check the plan across all definitions
 $ terragrunt run-all plan
 ----
 
+
 Add the EKS cluster as a local kubectl context
 
 [source,shell]
 ----
-$ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart
-$ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart --profile infra-admin-189768267137
+$ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart-cluster
 ----
 

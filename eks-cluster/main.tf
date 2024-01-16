@@ -34,7 +34,7 @@ module "this" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.21.0"
 
-  cluster_name                   = "cloudbees-quickstart"
+  cluster_name                   = "cloudbees-quickstart-cluster"
   cluster_version                = "1.28"
   cluster_endpoint_public_access = true
 
