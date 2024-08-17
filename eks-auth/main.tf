@@ -91,56 +91,7 @@ locals {
       principal_arn = data.aws_iam_role.infra_mgmt.arn
     }
   ]
-
-  # this is how we map AWS roles into Kubernetes users
-  # aws_auth_data = {
-  #   "mapRoles" = jsonencode(concat([
-  #     for arn in var.node_group_iam_role_arns : {
-  #       groups = [
-  #         "system:bootstrappers",
-  #         "system:nodes"
-  #       ]
-  #       rolearn  = arn
-  #       username = "system:node:{{EC2PrivateDNSName}}"
-  #     }], [
-  #     {
-  #       groups = [
-  #         "system:masters",
-  #       ]
-  #       rolearn  = data.aws_iam_role.admin.arn
-  #       username = data.aws_iam_role.admin.name
-  #     },
-  #     # Set permissions for the cloudbees-eks-deployer AWS role
-  #     # TODO: define a automation:deployer group with more limited permissions (see deployer_role_binding in arch-infra)
-  #     {
-  #       groups = [
-  #         "system:masters",
-  #       ]
-  #       rolearn  = data.aws_iam_role.deployer.arn
-  #       username = data.aws_iam_role.deployer.name
-  #     },
-  #     # Set permissions for the cloudbees-infra-mgmt AWS role
-  #     {
-  #       groups = [
-  #         "system:masters",
-  #       ]
-  #       rolearn  = data.aws_iam_role.infra_mgmt.arn
-  #       username = data.aws_iam_role.infra_mgmt.name
-  #     },
-  #   ]))
-  # }
 }
-
-# resource "kubernetes_config_map_v1_data" "aws_auth" {
-#   metadata {
-#     name      = "aws-auth"
-#     namespace = "kube-system"
-#   }
-
-#   data = local.aws_auth_data
-
-#   force = true
-# }
 
 resource "aws_eks_access_entry" "eks_access_entry" {
   for_each      = { for entry in local.iam_access_entries : entry.principal_arn => entry }
