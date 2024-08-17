@@ -26,6 +26,6 @@ $ terragrunt run-all plan
 Add the EKS cluster as a local kubectl context
 
 ```
-$ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart-cluster
+$ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart
 ```
 

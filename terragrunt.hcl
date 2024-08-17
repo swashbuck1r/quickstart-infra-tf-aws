@@ -15,5 +15,16 @@ remote_state {
 }
 
 inputs = {
-  aws-user-name = "infra-guide-rails"
+  eks_cluster_name = "cloudbees-quickstart"
+  
+  eks_endpoint_public_access_cidrs = [
+    "100.21.184.186/32", # CB Platform US-WEST
+    "54.236.193.143/32", # CB Platform US-EAST
+    "52.86.39.231/32",   # AWS OpenVPN external
+    "34.200.9.247/32",   # AWS OpenVPN external
+    "34.73.99.37/32",    # GCP OpenVPN external primary
+    "34.73.18.111/32"    # GCP OpenVPN external secondary
+  ]
+
+  admin_role_name = "AWSReservedSSO_infra-admin_19ffd3b99ad3940b"
 }

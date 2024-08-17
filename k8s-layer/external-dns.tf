@@ -87,6 +87,8 @@ resource "kubernetes_namespace" "external_dns" {
   }
 }
 
+# NOTE: this sometimes fails during initial setup (probably because the ALB webhooks are not available yet)
+# TODO: see if we can add a more robust retry here
 resource "helm_release" "external_dns" {
   depends_on = [kubernetes_namespace.external_dns, aws_iam_role_policy_attachment.external_dns_attach]
 

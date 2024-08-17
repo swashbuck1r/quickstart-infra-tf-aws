@@ -12,6 +12,8 @@ dependency "eks_cluster" {
 
   mock_outputs = {
     cluster_name             = "dummy_cluster_name"
+    oidc_provider_arn        = "dummy_oidc_provider_arn"
+    node_group_iam_role_arns = "dummy_node_group_iam_role_arns"
   }
 }
 
