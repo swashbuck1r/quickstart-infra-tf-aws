@@ -4,6 +4,11 @@ variable "eks_cluster_name" {
   default     = "cb-quickstart"
 }
 
+variable "region" {
+  type        = string
+  description = "AWS region to deploy resources"
+}
+
 variable "vpc_id" {
   type = string
 }

@@ -15,6 +15,7 @@ remote_state {
 }
 
 inputs = {
+  region = "us-east-1"
   eks_cluster_name = "cloudbees-quickstart"
   
   eks_endpoint_public_access_cidrs = [

@@ -7,8 +7,8 @@ dependency "vpc" {
 
   mock_outputs = {
     vpc_id             = "dummy_vpc_id"
-    private_subnet_ids = ["dummy_private_subnet_id"]
-    public_subnet_ids  = ["dummy_public_subnet_id"]
+    private_subnets = ["dummy_private_subnet_id"]
+    public_subnets  = ["dummy_public_subnet_id"]
   }
 }
 

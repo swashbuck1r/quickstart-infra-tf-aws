@@ -13,7 +13,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = local.region
   default_tags {
     tags = {
       TerraformSource = "infra"
@@ -53,6 +53,18 @@ module "subnet_addrs" {
   ]
 }
 
+data "aws_availability_zones" "available" {
+  filter {
+    name   = "opt-in-status"
+    values = ["opt-in-not-required"]
+  }
+}
+
+locals {
+  name   = var.eks_cluster_name
+  region = var.region
+  azs    = slice(data.aws_availability_zones.available.names, 0, 3)
+}
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
@@ -68,11 +80,14 @@ module "vpc" {
   enable_nat_gateway = true # Hide private subnetworks behind NAT Gateway
 
   public_subnet_tags = {
-    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/cluster/${local.name}" = "shared"
+    "kubernetes.io/role/elb"              = "1"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = "1"
+    "kubernetes.io/cluster/${local.name}" = "shared"
+    "kubernetes.io/role/internal-elb"     = "1"
+    "karpenter.sh/discovery"              = local.name
   }
 
   tags = {
@@ -122,3 +137,8 @@ module "vpc" {
 #   }
 # }
 
+
+# Enables spot instances for this AWS account
+resource "aws_iam_service_linked_role" "spot_instances" {
+  aws_service_name = "spot.amazonaws.com"
+}

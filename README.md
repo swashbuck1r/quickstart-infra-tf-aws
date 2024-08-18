@@ -29,3 +29,10 @@ Add the EKS cluster as a local kubectl context
 $ aws eks update-kubeconfig --region us-east-1 --name cloudbees-quickstart
 ```
 
+
+Viewing karpenter logs
+
+```
+kubectl logs -f -n "karpenter" -l app.kubernetes.io/name=karpenter -c controller
+
+```
