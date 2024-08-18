@@ -60,10 +60,17 @@ resource "kubectl_manifest" "karpenter_node_pool" {
               values: ["spot"]
             - key: karpenter.k8s.aws/instance-category
               operator: In
-              values: ["c", "m", "r"]
-            - key: karpenter.k8s.aws/instance-generation
-              operator: Gt
-              values: ["2"]
+              values: ["t"]
+            - key: karpenter.k8s.aws/instance-family
+              operator: In
+              values: ["t3"]
+            - key: karpenter.k8s.aws/instance-size
+              operator: In
+              values: ["small"]
+            - key: karpenter.k8s.aws/instance-size
+              operator: In
+              values: ["small"]
+            
           nodeClassRef:
             apiVersion: karpenter.k8s.aws/v1beta1
             kind: EC2NodeClass
