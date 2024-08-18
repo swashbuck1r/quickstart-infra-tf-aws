@@ -67,9 +67,6 @@ resource "kubectl_manifest" "karpenter_node_pool" {
             - key: karpenter.k8s.aws/instance-size
               operator: In
               values: ["small"]
-            - key: karpenter.k8s.aws/instance-size
-              operator: In
-              values: ["small"]
             
           nodeClassRef:
             apiVersion: karpenter.k8s.aws/v1beta1
