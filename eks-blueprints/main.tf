@@ -108,10 +108,19 @@ module "eks_blueprints_addons" {
 
   # Enable external-dns and certificate mgmt for all zones managed by the AWS account
   # This allows app ingresses to use any hostname that is part of a zone managed by this account
-  enable_external_dns                   = true
+  enable_external_dns = true
   external_dns_route53_zone_arns = [
     "arn:aws:route53:::hostedzone/*"
   ]
+  external_dns = {
+    set = [
+      {
+        name  = "policy"
+        value = "sync"
+        type  = "string"
+      }
+    ]
+  }
   enable_cert_manager                   = true
   cert_manager_route53_hosted_zone_arns = ["arn:aws:route53:::hostedzone/*"]
 
