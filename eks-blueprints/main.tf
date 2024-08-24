@@ -81,6 +81,10 @@ variable "ebs_csi_driver_irsa_role_arn" {
   type = string
 }
 
+variable "vpc_id" {
+  type = string
+}
+
 data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
@@ -100,8 +104,18 @@ module "eks_blueprints_addons" {
     }
   }
 
-  enable_karpenter = true
+  enable_aws_load_balancer_controller = true
 
+  # Enable external-dns and certificate mgmt for all zones managed by the AWS account
+  # This allows app ingresses to use any hostname that is part of a zone managed by this account
+  enable_external_dns                   = true
+  external_dns_route53_zone_arns = [
+    "arn:aws:route53:::hostedzone/*"
+  ]
+  enable_cert_manager                   = true
+  cert_manager_route53_hosted_zone_arns = ["arn:aws:route53:::hostedzone/*"]
+
+  enable_karpenter = true
   # from https://github.com/aws-samples/karpenter-blueprints/blob/main/cluster/terraform/main.tf#L160C3-L169C4
   karpenter = {
     chart_version       = "0.37.0"
@@ -113,9 +127,9 @@ module "eks_blueprints_addons" {
   karpenter_node = {
     iam_role_use_name_prefix = false
   }
-  
 
-  tags       = {}
+
+  tags = {}
 }
 
 resource "aws_eks_access_entry" "eks_access_entry" {
