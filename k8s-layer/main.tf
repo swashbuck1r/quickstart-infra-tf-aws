@@ -61,11 +61,17 @@ variable "vpc_id" {
   type = string
 }
 
+variable "ingress_alb_hostname" {
+  type    = string
+}
+
+variable "ingress_alb_certificate_arn" {
+  type    = string
+}
 
 locals {
   cluster_identity_oidc_issuer = data.aws_eks_cluster.target.identity[0]["oidc"][0]["issuer"]
 }
-
 
 data "aws_iam_openid_connect_provider" "main" {
   url = local.cluster_identity_oidc_issuer

@@ -28,4 +28,7 @@ inputs = {
   ]
 
   admin_role_name = "AWSReservedSSO_infra-admin_19ffd3b99ad3940b"
+
+  ingress_alb_hostname = "*.arch.beescloud.com"
+  ingress_alb_certificate_arn = "arn:aws:acm:us-east-1:189768267137:certificate/99bc14a9-bc03-4d4a-92ca-88842ca76f39"
 }

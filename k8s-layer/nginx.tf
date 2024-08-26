@@ -17,4 +17,19 @@ resource "helm_release" "ingress_nginx" {
     name  = "controller.service.type"
     value = "NodePort"
   }
+
+  set {
+    name  = "controller.publishService.enabled"
+    value = "false"
+  }
+
+  # Forcefully sets the LB hostname used this ingress to the
+  # primary cluster ALB. Ideally, the ingress could discover
+  # the LB hostname by using a controller.publishIngress setting, but
+  # alas, it only supports grabbing this value from a k8s-service, but
+  # the AWS alb-controller only provides this through its ingress.
+  set {
+    name  = "controller.extraArgs.publish-status-address"
+    value = kubernetes_ingress_v1.alb_ingress_connect_nginx.status.0.load_balancer.0.ingress.0.hostname
+  }
 }

@@ -122,14 +122,14 @@ module "eks_blueprints_addons" {
     ]
     # limit the external DNS to only add routes for the alb ingresses
     # (since the nginx ingress is internal-only)
-    set = [
-      {
-        name  = "extraArgs"
-        value = "{--ingress-class=alb}"
-        # value = "{--service-type-filter=LoadBalancer}"
-        type  = "string"
-      }
-    ]
+    # set = [
+    #   {
+    #     name  = "extraArgs"
+    #     value = "{--ingress-class=alb}"
+    #     # value = "{--service-type-filter=LoadBalancer}"
+    #     type  = "string"
+    #   }
+    # ]
   }
   enable_cert_manager                   = true
   cert_manager_route53_hosted_zone_arns = ["arn:aws:route53:::hostedzone/*"]
